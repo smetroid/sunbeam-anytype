@@ -23,6 +23,25 @@ CLI tool to manage command snippets in Anytype via Sunbeam.
 
 ## Installation
 
+### Option 1: Download Binary
+
+Pre-built binaries are available on the [Releases](https://github.com/smetroid/sunbeam-anytype/releases) page.
+
+```bash
+# macOS Apple Silicon
+curl -L -o sunbeam-anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/sunbeam-anytype-darwin-arm64
+
+# macOS Intel
+curl -L -o sunbeam-anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/sunbeam-anytype-darwin-amd64
+
+# Linux
+curl -L -o sunbeam-anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/sunbeam-anytype-linux-amd64
+
+chmod +x sunbeam-anytype
+```
+
+### Option 2: Build from Source
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/smetroid/sunbeam-anytype.git
