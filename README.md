@@ -109,6 +109,32 @@ Commands available:
 - **View Command** - View details with copy to clipboard
 - **Edit Object** - Edit the object in Vim
 
+### Raycast
+
+If you prefer Raycast over Sunbeam, you can use the Raycast scripts directly:
+
+1. Copy the scripts to your Raycast scripts folder:
+```bash
+mkdir -p ~/.raycast/local
+cp raycast/*.sh ~/.raycast/local/
+```
+
+2. Configure your Anytype credentials as environment variables in `~/.zshrc`:
+```bash
+export ANYTYPE_APP_KEY="your-app-key"
+export ANYTYPE_SPACE_ID="your-space-id"
+```
+
+3. Available Raycast commands:
+- **anytype-search** - Search and filter your command snippets
+- **anytype-clipboard** - Save clipboard content to Anytype
+- **anytype-shell** - Save last shell command to Anytype
+
+4. Set up hotkeys in Raycast:
+- `⌥ + A` - Search commands
+- `⌥ + C` - Add from clipboard
+- `⌥ + S` - Add from shell command
+
 ## License
 
 Apache 2.0
