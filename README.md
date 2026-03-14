@@ -138,21 +138,31 @@ mkdir -p ~/.raycast/local
 cp raycast/*.sh ~/.raycast/local/
 ```
 
-2. Configure your Anytype credentials as environment variables in `~/.zshrc`:
+2. Reload Raycast:
+```bash
+killall Raycast
+```
+Or press `⌘ + R` in Raycast
+
+3. Configure your Anytype credentials as environment variables in `~/.zshrc`:
 ```bash
 export ANYTYPE_APP_KEY="your-app-key"
 export ANYTYPE_SPACE_ID="your-space-id"
 ```
 
-3. Available Raycast commands:
+Then restart your terminal.
+
+4. Available Raycast commands:
 - **anytype-search** - Search and filter your command snippets
 - **anytype-clipboard** - Save clipboard content to Anytype
 - **anytype-shell** - Save last shell command to Anytype
 
-4. Set up hotkeys in Raycast:
-- `⌥ + A` - Search commands
-- `⌥ + C` - Add from clipboard
-- `⌥ + S` - Add from shell command
+5. (Optional) Set up hotkeys:
+   - Open Raycast Preferences (`⌘ + ,`)
+   - Go to **Extensions**
+   - Find the command → click **Key** to assign a shortcut
+
+**Note:** The scripts expect the binary at `~/projects/sunbeam-memos/sunbeam-anytype/sunbeam-anytype`. If you installed elsewhere, edit the `BINARY_PATH` variable in each script.
 
 ## License
 
