@@ -20,12 +20,12 @@ if [ $# -eq 0 ]; then
         ],
         commands: [
             {
-                name: "anytype-cmds",
+                name: "anytype-cmd",
                 title: "Anytype cmd blocks",
                 mode: "filter"
             },
             {
-                name: "anytype-snippets",
+                name: "anytype-snippet",
                 title: "Anytype snippets blocks",
                 mode: "filter"
             },
@@ -60,7 +60,7 @@ fi
 COMMAND=$(echo "$1" | jq -r '.command')
 FILTER=$(echo "$1" | jq -r '.command | split("-")[1]')
 
-if [ "$COMMAND" = "anytype-cmds" ]; then
+if [ "$COMMAND" = "anytype-cmd" ]; then
     OBJECTS=$(~/projects/sunbeam-anytype/sunbeam-anytype -tags "${FILTER}")
     echo "$OBJECTS" | jq '{
         "items": map({
@@ -95,7 +95,7 @@ if [ "$COMMAND" = "anytype-cmds" ]; then
     exit 0
 fi
 
-if [ "$COMMAND" = "anytype-snippets" ]; then
+if [ "$COMMAND" = "anytype-snippet" ]; then
     OBJECTS=$(~/projects/sunbeam-anytype/sunbeam-anytype -tags "${FILTER}")
     echo "$OBJECTS" | jq '{
         "items": map({
