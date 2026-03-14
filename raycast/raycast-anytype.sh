@@ -15,7 +15,7 @@
 
 set -e
 
-BINARY_PATH="$HOME/projects/sunbeam-memos/sunbeam-anytype/sunbeam-anytype"
+BINARY_PATH="$HOME/projects/sunbeam-anytype/sunbeam-anytype"
 MODE="${1:-search}"
 
 if [ "$MODE" = "clipboard" ]; then

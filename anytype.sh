@@ -61,7 +61,7 @@ COMMAND=$(echo "$1" | jq -r '.command')
 FILTER=$(echo "$1" | jq -r '.command | split("-")[1]')
 
 if [ "$COMMAND" = "anytype-cmds" ]; then
-    OBJECTS=$(~/projects/sunbeam-memos/sunbeam-anytype/sunbeam-anytype -tags "${FILTER}")
+    OBJECTS=$(~/projects/sunbeam-anytype/sunbeam-anytype -tags "${FILTER}")
     echo "$OBJECTS" | jq '{
         "items": map({
             "title": .cmd,
@@ -96,7 +96,7 @@ if [ "$COMMAND" = "anytype-cmds" ]; then
 fi
 
 if [ "$COMMAND" = "anytype-snippets" ]; then
-    OBJECTS=$(~/projects/sunbeam-memos/sunbeam-anytype/sunbeam-anytype -tags "${FILTER}")
+    OBJECTS=$(~/projects/sunbeam-anytype/sunbeam-anytype -tags "${FILTER}")
     echo "$OBJECTS" | jq '{
         "items": map({
             "title": .content,
@@ -124,7 +124,7 @@ if [ "$COMMAND" = "anytype-snippets" ]; then
 fi
 
 if [ "$COMMAND" = "anytype-all" ]; then
-    OBJECTS=$(~/projects/sunbeam-memos/sunbeam-anytype/sunbeam-anytype)
+    OBJECTS=$(~/projects/sunbeam-anytype/sunbeam-anytype)
     echo "$OBJECTS" | jq '{
         "items": map({
             "title": .content,
@@ -212,7 +212,7 @@ if [ "$COMMAND" = "edit-object" ]; then
     vim $TMP_FILE
     after_edit=$(stat -c %Y "$TMP_FILE" 2>/dev/null || stat -f %m "$TMP_FILE")
     if [ "$before_edit" -ne "$after_edit" ]; then
-        STATUS=$(~/projects/sunbeam-memos/sunbeam-anytype/sunbeam-anytype -update -name ${name})
+        STATUS=$(~/projects/sunbeam-anytype/sunbeam-anytype -update -name ${name})
         if [ $? -eq 0 ]; then
             echo "Success: updated object"
             echo $STATUS
