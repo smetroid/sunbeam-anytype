@@ -120,7 +120,7 @@ Get all objects (filtered by tags):
 
 Open Sunbeam and search for:
 - `anytype-cmds` - Filter command blocks
-- `anytype-snippets` - Filter snippet content  
+- `anytype-snippets` - Filter snippet content
 - `anytype-all` - View all objects
 
 Commands available:
@@ -162,7 +162,7 @@ Then restart your terminal.
    - Go to **Extensions**
    - Find the command → click **Key** to assign a shortcut
 
-**Note:** The scripts expect the binary at `~/projects/sunbeam-memos/sunbeam-anytype/sunbeam-anytype`. If you installed elsewhere, edit the `BINARY_PATH` variable in each script.
+**Note:** The scripts expect the binary at `~/projects/sunbeam-anytype/sunbeam-anytype`. If you installed elsewhere, edit the `BINARY_PATH` variable in each script.
 
 ## License
 
