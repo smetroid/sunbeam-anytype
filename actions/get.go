@@ -146,9 +146,19 @@ func GetAnytypeObjects(tags *string, spaceID string, appKey string) {
 
 		codeBlock := strings.TrimSpace(extractCodeBlock(markdown))
 
+		var objTags []string
+		for _, prop := range obj.Properties {
+			if prop.Key == "tags" || prop.Key == "tag" {
+				for _, tag := range prop.MultiSelect {
+					objTags = append(objTags, tag.Name)
+				}
+				break
+			}
+		}
+
 		itemMap := map[string]string{
 			"cmd":     codeBlock,
-			"tags":    strings.Join(tagList, " "),
+			"tags":    strings.Join(objTags, " "),
 			"content": strings.TrimSpace(content),
 			"name":    obj.ID,
 		}
