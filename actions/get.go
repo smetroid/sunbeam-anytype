@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
+	"os"
 	"regexp"
 	"strings"
 
@@ -47,51 +47,119 @@ func GetAnytypeObjects(tags *string, spaceID string, appKey string) {
 		tagList[i] = strings.TrimSpace(tagList[i])
 	}
 
-	searchReq := anytype.SearchRequest{
-		Query: "",
-	}
+	searchReq := anytype.SearchRequest{}
+
+	applyFilter := false
 
 	if len(tagList) > 0 && tagList[0] != "" {
-		searchReq.Query = strings.Join(tagList, " ")
+		props, err := client.Space(spaceID).Properties().List(ctx)
+		if err == nil {
+			var tagsPropID string
+			var tagsPropKey string
+			for _, prop := range props {
+				if prop.Name == "Tags" || prop.Name == "Tag" || prop.Key == "tags" || prop.Key == "tag" {
+					tagsPropID = prop.ID
+					tagsPropKey = prop.Key
+					break
+				}
+			}
+
+			if tagsPropKey != "" {
+				tagResp, err := client.Space(spaceID).Property(tagsPropID).Tags().List(ctx)
+
+				var tagKeys []string
+
+				if err == nil {
+					for _, requestedTag := range tagList {
+						found := false
+						for _, t := range tagResp {
+							if strings.EqualFold(t.Name, requestedTag) {
+								tagKeys = append(tagKeys, t.Key)
+								found = true
+								break
+							}
+						}
+						if !found {
+							tagKeys = append(tagKeys, requestedTag)
+						}
+					}
+				} else {
+					for _, requestedTag := range tagList {
+						tagKeys = append(tagKeys, requestedTag)
+					}
+				}
+
+				if len(tagKeys) > 0 {
+					applyFilter = true
+					filterExpr := &anytype.FilterExpression{
+						Operator: anytype.FilterOperatorAnd,
+						Conditions: []anytype.FilterItem{
+							anytype.MultiSelectFilter(
+								tagsPropKey,
+								anytype.FilterConditionIn,
+								tagKeys,
+							),
+						},
+					}
+					searchReq.Filters = filterExpr
+				}
+			}
+		}
+	}
+
+	if len(tagList) > 0 && tagList[0] != "" && !applyFilter {
+		fmt.Println("[]")
+		return
 	}
 
 	searchResp, err := client.Space(spaceID).Search(ctx, searchReq)
 	if err != nil {
-		log.Fatalf("Error searching objects: %v", err)
+		if strings.Contains(err.Error(), "bad_request") || strings.Contains(err.Error(), "failed to build expression") {
+			fmt.Println("[]")
+			return
+		}
+		fmt.Fprintf(os.Stderr, "Error searching objects: %v\n", err)
+		os.Exit(1)
 	}
 
 	results := []map[string]string{}
 	for _, obj := range searchResp.Data {
-		content := obj.Name
-		if obj.Snippet != "" {
-			content = obj.Name + "\n" + obj.Snippet
-		}
+		var markdown, content string
 
-		var objTags []string
-		for _, prop := range obj.Properties {
-			if prop.Key == "tags" {
-				for _, tag := range prop.MultiSelect {
-					objTags = append(objTags, tag.Name)
+		objResp, err := client.Space(spaceID).Object(obj.ID).Get(ctx, anytype.WithFormat("md"))
+		if err == nil && objResp.Object != nil {
+			markdown = objResp.Object.Markdown
+			content = objResp.Object.Markdown
+			if content == "" {
+				content = objResp.Object.Snippet
+				if content == "" {
+					content = objResp.Object.Name
 				}
+			}
+		} else {
+			markdown = obj.Markdown
+			content = obj.Snippet
+			if content == "" {
+				content = obj.Name
 			}
 		}
 
-		codeBlock := extractCodeBlock(content)
-		extractedTags := extractTags(content)
-		allTags := append(objTags, extractedTags...)
+		codeBlock := strings.TrimSpace(extractCodeBlock(markdown))
 
 		itemMap := map[string]string{
 			"cmd":     codeBlock,
-			"tags":    strings.Join(allTags, " "),
-			"content": content,
+			"tags":    strings.Join(tagList, " "),
+			"content": strings.TrimSpace(content),
 			"name":    obj.ID,
 		}
+
 		results = append(results, itemMap)
 	}
 
 	jsonData, err := json.MarshalIndent(results, "", "  ")
 	if err != nil {
-		log.Fatalf("Error converting to JSON: %v", err)
+		fmt.Fprintf(os.Stderr, "Error converting to JSON: %v\n", err)
+		os.Exit(1)
 	}
 
 	fmt.Println(string(jsonData))
