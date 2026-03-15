@@ -1,0 +1,48 @@
+{
+  "name": "sunbeam-anytype",
+  "title": "Sunbeam Anytype",
+  "description": "Search and manage Anytype commands with Raycast",
+  "icon": "icon.png",
+  "author": "smetroid",
+  "license": "MIT",
+  "categories": [
+    "Developer Tools",
+    "Productivity"
+  ],
+  "platforms": [
+    "macOS"
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.80.0",
+    "@raycast/utils": "^1.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "build": "ray build --no-exit-on-error",
+    "dev": "ray develop"
+  },
+  "commands": [
+    {
+      "name": "search",
+      "title": "Search Anytype Commands",
+      "description": "Search command snippets from Anytype",
+      "mode": "view"
+    },
+    {
+      "name": "add-clipboard",
+      "title": "Add from Clipboard",
+      "description": "Save clipboard content to Anytype",
+      "mode": "silent"
+    },
+    {
+      "name": "add-shell",
+      "title": "Add from Shell Command",
+      "description": "Save last shell command to Anytype",
+      "mode": "silent"
+    }
+  ]
+}
