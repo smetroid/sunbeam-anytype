@@ -116,6 +116,19 @@ Get all objects (filtered by tags):
 ./sunbeam-anytype --tags "shell,commands"
 ```
 
+### Raycast
+
+To launch Sunbeam with Alacritty from Raycast:
+
+1. Copy `raycast/raycast-alacritty.sh` to your Raycast Scripts directory:
+```bash
+cp raycast/raycast-alacritty.sh ~/Library/Application\ Support/Raycast/Scripts/
+```
+
+2. Run `raycast reload` or restart Raycast
+
+3. Type "sunbeam" in Raycast to launch Sunbeam via Alacritty
+
 ### Sunbeam
 
 Open Sunbeam and search for:
@@ -127,42 +140,6 @@ Commands available:
 - **Run Command** - Execute the saved command
 - **View Command** - View details with copy to clipboard
 - **Edit Object** - Edit the object in Vim
-
-### Raycast
-
-If you prefer Raycast over Sunbeam, you can use the Raycast scripts directly:
-
-1. Copy the scripts to your Raycast scripts folder:
-```bash
-mkdir -p ~/.raycast/local
-cp raycast/*.sh ~/.raycast/local/
-```
-
-2. Reload Raycast:
-```bash
-killall Raycast
-```
-Or press `⌘ + R` in Raycast
-
-3. Configure your Anytype credentials as environment variables in `~/.zshrc`:
-```bash
-export ANYTYPE_APP_KEY="your-app-key"
-export ANYTYPE_SPACE_ID="your-space-id"
-```
-
-Then restart your terminal.
-
-4. Available Raycast commands:
-- **anytype-search** - Search and filter your command snippets
-- **anytype-clipboard** - Save clipboard content to Anytype
-- **anytype-shell** - Save last shell command to Anytype
-
-5. (Optional) Set up hotkeys:
-   - Open Raycast Preferences (`⌘ + ,`)
-   - Go to **Extensions**
-   - Find the command → click **Key** to assign a shortcut
-
-**Note:** The scripts expect the binary at `~/projects/sunbeam-anytype/sunbeam-anytype`. If you installed elsewhere, edit the `BINARY_PATH` variable in each script.
 
 ## License
 
