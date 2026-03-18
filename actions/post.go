@@ -66,6 +66,22 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 		anytype.WithAppKey(appKey),
 	)
 
+	props, err := client.Space(spaceID).Properties().List(ctx)
+	if err != nil {
+		fmt.Printf("Error listing properties: %v\n", err)
+		os.Exit(1)
+	}
+
+	var tagsPropID string
+	var tagsPropKey string
+	for _, prop := range props {
+		if prop.Name == "Tags" || prop.Name == "Tag" || prop.Key == "tags" || prop.Key == "tag" {
+			tagsPropID = prop.ID
+			tagsPropKey = prop.Key
+			break
+		}
+	}
+
 	var content string
 	if *clipboard {
 		cmd := exec.Command("sunbeam", "paste")
@@ -108,11 +124,42 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 		allTags = append(allTags, strings.Split(additionalTags, ",")...)
 	}
 
+	var tagKeys []string
+	if tagsPropKey != "" && len(allTags) > 0 {
+		tagResp, err := client.Space(spaceID).Property(tagsPropID).Tags().List(ctx)
+		if err == nil {
+			for _, requestedTag := range allTags {
+				requestedTag = strings.TrimSpace(requestedTag)
+				found := false
+				for _, t := range tagResp {
+					if strings.EqualFold(t.Name, requestedTag) {
+						tagKeys = append(tagKeys, t.Key)
+						found = true
+						break
+					}
+				}
+				if !found {
+					tagCreateReq := anytype.CreateTagRequest{
+						Name:  requestedTag,
+						Color: "grey",
+					}
+					tagRespNew, err := client.Space(spaceID).Property(tagsPropID).Tags().Create(ctx, tagCreateReq)
+					if err == nil {
+						tagKeys = append(tagKeys, tagRespNew.Tag.Key)
+					}
+				}
+			}
+		}
+	}
+
 	firstWord := strings.Split(content, " ")[0]
 
+	firstWord = strings.TrimSpace(firstWord)
+
 	var hashtags []string
-	hashtags = append(hashtags, "#cmds")
-	hashtags = append(hashtags, "#"+firstWord)
+	if firstWord != "" {
+		hashtags = append(hashtags, "#"+firstWord)
+	}
 
 	for _, tag := range allTags {
 		tag = strings.TrimSpace(tag)
@@ -121,12 +168,13 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 		}
 	}
 
-	markdownContent := fmt.Sprintf("```bash\n%s\n```\n\n%s", content, strings.Join(hashtags, " "))
+	var markdownContent string
+	markdownContent = fmt.Sprintf("```bash\n%s\n```", content)
 
 	createReq := anytype.CreateObjectRequest{
-		TypeKey: "page",
-		Name:    markdownContent,
-		Body:    content,
+		TypeKey: "note",
+		Name:    content,
+		Body:    markdownContent,
 	}
 
 	obj, err := client.Space(spaceID).Objects().Create(ctx, createReq)
@@ -136,4 +184,21 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 	}
 
 	fmt.Printf("Object created successfully! ID: %s\n", obj.Object.ID)
+
+	if tagsPropKey != "" && len(tagKeys) > 0 {
+		updateReq := anytype.UpdateObjectRequest{
+			Properties: []anytype.PropertyLinkWithValue{
+				{
+					Key:         tagsPropKey,
+					MultiSelect: tagKeys,
+				},
+			},
+		}
+		_, err = client.Space(spaceID).Object(obj.Object.ID).Update(ctx, updateReq)
+		if err != nil {
+			fmt.Printf("Error updating tags: %v\n", err)
+		} else {
+			fmt.Printf("Tags added successfully!\n")
+		}
+	}
 }
