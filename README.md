@@ -10,6 +10,8 @@ CLI tool to manage command snippets in Anytype via Sunbeam.
 
 ## Features
 
+- Single binary handles both CLI and Sunbeam extension modes
+- YAML-driven templates (hot-reload without recompiling)
 - Add entries from clipboard
 - Add entries from the command line (last shell command)
 - Filter entries by tags
@@ -19,7 +21,7 @@ CLI tool to manage command snippets in Anytype via Sunbeam.
 
 1. [Anytype](https://anytype.io) - Local-first note-taking app
 2. [Sunbeam](https://sunbeam.pomdtr.me) - Terminal launcher
-3. [Go](https://go.dev) - To build the binary
+3. [Go](https://go.dev) - To build the binary (optional, pre-built binaries available)
 
 ## Installation
 
@@ -29,36 +31,39 @@ Pre-built binaries are available on the [Releases](https://github.com/smetroid/s
 
 ```bash
 # macOS Apple Silicon
-curl -L -o sunbeam-anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/sunbeam-anytype-darwin-arm64
+curl -L -o anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/anytype-darwin-arm64
 
 # macOS Intel
-curl -L -o sunbeam-anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/sunbeam-anytype-darwin-amd64
+curl -L -o anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/anytype-darwin-amd64
 
 # Linux
-curl -L -o sunbeam-anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/sunbeam-anytype-linux-amd64
+curl -L -o anytype https://github.com/smetroid/sunbeam-anytype/releases/latest/download/anytype-linux-amd64
 
-chmod +x sunbeam-anytype
+chmod +x anytype
 ```
 
 ### Option 2: Build from Source
 
-1. Clone the repository:
 ```bash
 git clone https://github.com/smetroid/sunbeam-anytype.git
 cd sunbeam-anytype
-```
-
-2. Build the binary:
-```bash
 make build
 ```
 
-3. Install Sunbeam extension:
+### Option 3: Install via Sunbeam
+
 ```bash
-make sunbeam-install
+# After building
+sunbeam extension install ./anytype
 ```
 
-4. Configure the Sunbeam extension by adding to your `~/.config/sunbeam/sunbeam.json`:
+### Configuration
+
+The extension will use Anytype credentials from:
+1. Sunbeam preferences (in `sunbeam.json`)
+2. Environment variables
+
+Add to your `~/.config/sunbeam/sunbeam.json`:
 ```json
 {
   "extensions": {
@@ -70,6 +75,12 @@ make sunbeam-install
     }
   }
 }
+```
+
+Or set via environment variables:
+```bash
+export ANYTYPE_APP_KEY="your-app-key"
+export ANYTYPE_SPACE_ID="your-space-id"
 ```
 
 ### Getting Anytype Credentials
@@ -91,32 +102,67 @@ The API key will be displayed after authentication. The Space ID can be found in
 anytype-cli spaces list
 ```
 
-Or set via environment variables:
-```bash
-export ANYTYPE_APP_KEY="your-app-key"
-export ANYTYPE_SPACE_ID="your-space-id"
-```
-
 ## Usage
 
-### CLI
+### CLI Mode
+
+Search objects by tag:
+```bash
+./anytype -tags "cmd"
+```
 
 Save last shell command:
 ```bash
-./sunbeam-anytype --shellCommand
+./anytype --shellCommand
 ```
 
 Save clipboard content:
 ```bash
-./sunbeam-anytype --clipboard
+./anytype --clipboard
 ```
 
-Get all objects (filtered by tags):
+Update an object:
 ```bash
-./sunbeam-anytype --tags "shell,commands"
+./anytype -update -name "object-id"
 ```
 
-### Raycast
+### Sunbeam Mode
+
+Open Sunbeam and search for:
+- `anytype-cmd` - Filter command blocks (tagged with "cmd")
+- `anytype-snippet` - Filter snippet content (tagged with "snippet")
+- `anytype-all` - View all objects
+
+**Actions:**
+- **Copy to clipboard** - Copy the command
+- **Run Command** - Execute in terminal (konsole)
+- **View Command** - View details with copy/edit options
+- **Edit Object** - Edit in Vim and sync back to Anytype
+
+## Customization
+
+Edit `anytype.yaml` to customize templates without recompiling:
+
+```yaml
+templates:
+  cmd:
+    title: "{{.cmd}}"
+    accessories: "{{.tags}}"
+    actions:
+      - type: copy
+        title: "Copy to clipboard"
+        text: "{{.cmd}}"
+        exit: true
+      - type: run
+        title: "Run Command"
+        command: run-command
+        params:
+          codeblock: "{{.cmd}}"
+```
+
+Changes are hot-reloaded on next invocation - no recompile needed.
+
+## Raycast
 
 To launch Sunbeam with Alacritty from Raycast:
 
@@ -128,18 +174,6 @@ cp raycast/raycast-alacritty.sh ~/Library/Application\ Support/Raycast/Scripts/
 2. Run `raycast reload` or restart Raycast
 
 3. Type "sunbeam" in Raycast to launch Sunbeam via Alacritty
-
-### Sunbeam
-
-Open Sunbeam and search for:
-- `anytype-cmds` - Filter command blocks
-- `anytype-snippets` - Filter snippet content
-- `anytype-all` - View all objects
-
-Commands available:
-- **Run Command** - Execute the saved command
-- **View Command** - View details with copy to clipboard
-- **Edit Object** - Edit the object in Vim
 
 ## License
 
