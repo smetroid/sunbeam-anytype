@@ -1,0 +1,127 @@
+{
+  "actions": [
+    {
+      "exit": true,
+      "title": "Refresh items",
+      "type": "reload"
+    }
+  ],
+  "items": [
+    {
+      "accessories": ["cmd shell"],
+      "actions": [
+        {
+          "exit": true,
+          "text": "git status",
+          "title": "Copy to clipboard",
+          "type": "copy"
+        },
+        {
+          "command": "run-command",
+          "params": {
+            "codeblock": "git status"
+          },
+          "title": "Run Command",
+          "type": "run"
+        },
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "git status",
+            "content": "Check git repository status\n\n```bash\ngit status\n```"
+          },
+          "title": "View Command",
+          "type": "run"
+        }
+      ],
+      "title": "git status"
+    },
+    {
+      "accessories": ["cmd k8s"],
+      "actions": [
+        {
+          "exit": true,
+          "text": "kubectl get pods -n default",
+          "title": "Copy to clipboard",
+          "type": "copy"
+        },
+        {
+          "command": "run-command",
+          "params": {
+            "codeblock": "kubectl get pods -n default"
+          },
+          "title": "Run Command",
+          "type": "run"
+        },
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "kubectl get pods -n default",
+            "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```"
+          },
+          "title": "View Command",
+          "type": "run"
+        }
+      ],
+      "title": "kubectl get pods -n default"
+    },
+    {
+      "accessories": ["cmd docker"],
+      "actions": [
+        {
+          "exit": true,
+          "text": "docker ps",
+          "title": "Copy to clipboard",
+          "type": "copy"
+        },
+        {
+          "command": "run-command",
+          "params": {
+            "codeblock": "docker ps"
+          },
+          "title": "Run Command",
+          "type": "run"
+        },
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "docker ps",
+            "content": "List running containers\n\n```bash\ndocker ps\n```"
+          },
+          "title": "View Command",
+          "type": "run"
+        }
+      ],
+      "title": "docker ps"
+    },
+    {
+      "accessories": ["cmd shell filesystem"],
+      "actions": [
+        {
+          "exit": true,
+          "text": "ls -la",
+          "title": "Copy to clipboard",
+          "type": "copy"
+        },
+        {
+          "command": "run-command",
+          "params": {
+            "codeblock": "ls -la"
+          },
+          "title": "Run Command",
+          "type": "run"
+        },
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "ls -la",
+            "content": "List all files with details\n\n```bash\nls -la\n```"
+          },
+          "title": "View Command",
+          "type": "run"
+        }
+      ],
+      "title": "ls -la"
+    }
+  ]
+}

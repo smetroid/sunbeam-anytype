@@ -1,0 +1,198 @@
+{
+  "actions": [
+    {
+      "exit": true,
+      "title": "Refresh items",
+      "type": "reload"
+    }
+  ],
+  "items": [
+    {
+      "accessories": ["cmd shell"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "git status",
+            "content": "Check git repository status\n\n```bash\ngit status\n```",
+            "name": "obj-001"
+          },
+          "title": "view object",
+          "type": "run"
+        },
+        {
+          "command": "edit-object",
+          "params": {
+            "codeblock": "git status",
+            "content": "Check git repository status\n\n```bash\ngit status\n```",
+            "name": "obj-001"
+          },
+          "title": "edit object",
+          "type": "run"
+        }
+      ],
+      "subtitle": "git status",
+      "title": "Check git repository status\n\n```bash\ngit status\n```"
+    },
+    {
+      "accessories": ["cmd k8s"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "kubectl get pods -n default",
+            "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```",
+            "name": "obj-002"
+          },
+          "title": "view object",
+          "type": "run"
+        },
+        {
+          "command": "edit-object",
+          "params": {
+            "codeblock": "kubectl get pods -n default",
+            "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```",
+            "name": "obj-002"
+          },
+          "title": "edit object",
+          "type": "run"
+        }
+      ],
+      "subtitle": "kubectl get pods -n default",
+      "title": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```"
+    },
+    {
+      "accessories": ["cmd docker"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "docker ps",
+            "content": "List running containers\n\n```bash\ndocker ps\n```",
+            "name": "obj-003"
+          },
+          "title": "view object",
+          "type": "run"
+        },
+        {
+          "command": "edit-object",
+          "params": {
+            "codeblock": "docker ps",
+            "content": "List running containers\n\n```bash\ndocker ps\n```",
+            "name": "obj-003"
+          },
+          "title": "edit object",
+          "type": "run"
+        }
+      ],
+      "subtitle": "docker ps",
+      "title": "List running containers\n\n```bash\ndocker ps\n```"
+    },
+    {
+      "accessories": ["snippet"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "",
+            "content": "This is a snippet note with #snippet tag",
+            "name": "obj-004"
+          },
+          "title": "view object",
+          "type": "run"
+        },
+        {
+          "command": "edit-object",
+          "params": {
+            "codeblock": "",
+            "content": "This is a snippet note with #snippet tag",
+            "name": "obj-004"
+          },
+          "title": "edit object",
+          "type": "run"
+        }
+      ],
+      "title": "This is a snippet note with #snippet tag"
+    },
+    {
+      "accessories": ["snippet shell"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "echo 'Hello World'",
+            "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet",
+            "name": "obj-005"
+          },
+          "title": "view object",
+          "type": "run"
+        },
+        {
+          "command": "edit-object",
+          "params": {
+            "codeblock": "echo 'Hello World'",
+            "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet",
+            "name": "obj-005"
+          },
+          "title": "edit object",
+          "type": "run"
+        }
+      ],
+      "subtitle": "echo 'Hello World'",
+      "title": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet"
+    },
+    {
+      "accessories": ["notes"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "",
+            "content": "Just a regular note without code block",
+            "name": "obj-006"
+          },
+          "title": "view object",
+          "type": "run"
+        },
+        {
+          "command": "edit-object",
+          "params": {
+            "codeblock": "",
+            "content": "Just a regular note without code block",
+            "name": "obj-006"
+          },
+          "title": "edit object",
+          "type": "run"
+        }
+      ],
+      "title": "Just a regular note without code block"
+    },
+    {
+      "accessories": ["cmd shell filesystem"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "ls -la",
+            "content": "List all files with details\n\n```bash\nls -la\n```",
+            "name": "obj-007"
+          },
+          "title": "view object",
+          "type": "run"
+        },
+        {
+          "command": "edit-object",
+          "params": {
+            "codeblock": "ls -la",
+            "content": "List all files with details\n\n```bash\nls -la\n```",
+            "name": "obj-007"
+          },
+          "title": "edit object",
+          "type": "run"
+        }
+      ],
+      "subtitle": "ls -la",
+      "title": "List all files with details\n\n```bash\nls -la\n```"
+    }
+  ]
+}

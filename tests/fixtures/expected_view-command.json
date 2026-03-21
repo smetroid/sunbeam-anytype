@@ -1,0 +1,21 @@
+{
+  "actions": [
+    {
+      "exit": false,
+      "text": "git status",
+      "title": "Copy to clipboard",
+      "type": "copy"
+    },
+    {
+      "command": "edit-object",
+      "params": {
+        "codeblock": "git status",
+        "content": "Check git repository status\n\n```bash\ngit status\n```",
+        "name": "obj-001"
+      },
+      "title": "Edit",
+      "type": "run"
+    }
+  ],
+  "markdown": "Check git repository status\n\n```bash\ngit status\n```"
+}

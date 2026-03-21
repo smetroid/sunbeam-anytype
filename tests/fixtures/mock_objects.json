@@ -1,0 +1,44 @@
+[
+  {
+    "cmd": "git status",
+    "tags": "cmd shell",
+    "content": "Check git repository status\n\n```bash\ngit status\n```",
+    "name": "obj-001"
+  },
+  {
+    "cmd": "kubectl get pods -n default",
+    "tags": "cmd k8s",
+    "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```",
+    "name": "obj-002"
+  },
+  {
+    "cmd": "docker ps",
+    "tags": "cmd docker",
+    "content": "List running containers\n\n```bash\ndocker ps\n```",
+    "name": "obj-003"
+  },
+  {
+    "cmd": "",
+    "tags": "snippet",
+    "content": "This is a snippet note with #snippet tag",
+    "name": "obj-004"
+  },
+  {
+    "cmd": "echo 'Hello World'",
+    "tags": "snippet shell",
+    "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet",
+    "name": "obj-005"
+  },
+  {
+    "cmd": "",
+    "tags": "notes",
+    "content": "Just a regular note without code block",
+    "name": "obj-006"
+  },
+  {
+    "cmd": "ls -la",
+    "tags": "cmd shell filesystem",
+    "content": "List all files with details\n\n```bash\nls -la\n```",
+    "name": "obj-007"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "cmd": "git status",
+    "tags": "cmd shell",
+    "content": "Check git repository status\n\n```bash\ngit status\n```",
+    "name": "obj-001"
+  },
+  {
+    "cmd": "kubectl get pods -n default",
+    "tags": "cmd k8s",
+    "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```",
+    "name": "obj-002"
+  },
+  {
+    "cmd": "docker ps",
+    "tags": "cmd docker",
+    "content": "List running containers\n\n```bash\ndocker ps\n```",
+    "name": "obj-003"
+  },
+  {
+    "cmd": "ls -la",
+    "tags": "cmd shell filesystem",
+    "content": "List all files with details\n\n```bash\nls -la\n```",
+    "name": "obj-007"
+  }
+]

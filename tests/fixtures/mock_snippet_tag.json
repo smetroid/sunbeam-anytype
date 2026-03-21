@@ -1,0 +1,14 @@
+[
+  {
+    "cmd": "",
+    "tags": "snippet",
+    "content": "This is a snippet note with #snippet tag",
+    "name": "obj-004"
+  },
+  {
+    "cmd": "echo 'Hello World'",
+    "tags": "snippet shell",
+    "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet",
+    "name": "obj-005"
+  }
+]
