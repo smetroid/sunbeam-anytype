@@ -7,9 +7,6 @@ test:
 sunbeam-install:
 	sunbeam extension install ./anytype
 
-sunbeam-install-bash:
-	sunbeam extension install anytype.sh
-
 raycast-install:
 	cp anytype ~/Library/Application\ Support/com.raycast.macos/scripts/anytype
 
