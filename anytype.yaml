@@ -1,0 +1,125 @@
+title: "Anytype"
+description: "Search Anytype objects"
+
+preferences:
+  - name: anytype_app_key
+    title: "Anytype App Key"
+    type: string
+  - name: anytype_space_id
+    title: "Anytype Space ID"
+    type: string
+
+# Command definitions for sunbeam manifest
+commands:
+  - name: anytype-cmd
+    title: "Anytype cmd blocks"
+    mode: filter
+    tag_filter: "cmd"
+
+  - name: anytype-snippet
+    title: "Anytype snippets blocks"
+    mode: filter
+    tag_filter: "snippet"
+
+  - name: anytype-all
+    title: "ALL objects"
+    mode: filter
+    tag_filter: ""
+
+  - name: run-command
+    title: "execute command"
+    mode: tty
+    exit: true
+    terminal: "konsole -e bash -c '{{.codeblock}}; exec bash'"
+
+  - name: view-command
+    title: "view command"
+    mode: detail
+    exit: false
+
+  - name: edit-object
+    title: "edit object"
+    mode: tty
+    exit: false
+    editor: "${EDITOR:-vim}"
+
+# Item templates - define how objects are transformed to sunbeam items
+# Note: Use lowercase keys to match the data format from Anytype API
+templates:
+  # Template for command blocks (tagged with "cmd")
+  cmd:
+    title: "{{.cmd}}"
+    subtitle: ""
+    accessories: "{{.tags}}"
+    actions:
+      - type: copy
+        title: "Copy to clipboard"
+        text: "{{.cmd}}"
+        exit: true
+      - type: run
+        title: "Run Command"
+        command: run-command
+        params:
+          codeblock: "{{.cmd}}"
+      - type: run
+        title: "View Command"
+        command: view-command
+        params:
+          content: "{{.content}}"
+          codeblock: "{{.cmd}}"
+
+  # Template for snippets (tagged with "snippet")
+  snippet:
+    title: "{{.content}}"
+    subtitle: ""
+    accessories: "{{.tags}}"
+    actions:
+      - type: run
+        title: "view cmd"
+        command: view-command
+        params:
+          content: "{{.content}}"
+          codeblock: "{{.cmd}}"
+
+  # Template for all objects
+  all:
+    title: "{{.content}}"
+    subtitle: "{{.cmd}}"
+    accessories: "{{.tags}}"
+    actions:
+      - type: run
+        title: "view object"
+        command: view-command
+        params:
+          content: "{{.content}}"
+          codeblock: "{{.cmd}}"
+          name: "{{.name}}"
+      - type: run
+        title: "edit object"
+        command: edit-object
+        params:
+          content: "{{.content}}"
+          codeblock: "{{.cmd}}"
+          name: "{{.name}}"
+
+# Detail view template for view-command
+detail_template:
+  markdown: "{{.content}}"
+  actions:
+    - type: copy
+      title: "Copy to clipboard"
+      text: "{{.codeblock}}"
+      exit: false
+    - type: run
+      title: "Edit"
+      command: edit-object
+      params:
+        content: "{{.content}}"
+        codeblock: "{{.codeblock}}"
+        name: "{{.name}}"
+
+# Global actions (shown for all list views)
+global_actions:
+  - type: reload
+    title: "Refresh items"
+    exit: true

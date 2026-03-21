@@ -33,7 +33,7 @@ func getLastShellCommand() (string, error) {
 	return "", fmt.Errorf("no commands found in history file")
 }
 
-func UpdateAnytypeObject(objectID string, spaceID string, appKey string) {
+func UpdateAnytypeObject(objectID string, spaceID string, appKey string) error {
 	ctx := context.Background()
 	client := anytype.NewClient(
 		anytype.WithBaseURL("http://localhost:31009"),
@@ -43,8 +43,7 @@ func UpdateAnytypeObject(objectID string, spaceID string, appKey string) {
 	file := fmt.Sprintf("/tmp/%s.md", objectID)
 	content, err := os.ReadFile(file)
 	if err != nil {
-		fmt.Printf("Error reading file %s: %v\n", file, err)
-		os.Exit(1)
+		return fmt.Errorf("reading file %s: %v", file, err)
 	}
 
 	updateReq := anytype.UpdateObjectRequest{
@@ -53,23 +52,29 @@ func UpdateAnytypeObject(objectID string, spaceID string, appKey string) {
 
 	_, err = client.Space(spaceID).Object(objectID).Update(ctx, updateReq)
 	if err != nil {
-		fmt.Printf("Error updating object: %v\n", err)
-		os.Exit(1)
+		return fmt.Errorf("updating object: %v", err)
 	}
-	fmt.Printf("Updated object id: %s\n", objectID)
+	return nil
 }
 
-func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceID string, appKey string) {
+type PostOptions struct {
+	Clipboard    bool
+	ShellCommand bool
+	Tags         string
+	SpaceID      string
+	AppKey       string
+}
+
+func PostAnytypeObject(opts PostOptions) (string, error) {
 	ctx := context.Background()
 	client := anytype.NewClient(
 		anytype.WithBaseURL("http://localhost:31009"),
-		anytype.WithAppKey(appKey),
+		anytype.WithAppKey(opts.AppKey),
 	)
 
-	props, err := client.Space(spaceID).Properties().List(ctx)
+	props, err := client.Space(opts.SpaceID).Properties().List(ctx)
 	if err != nil {
-		fmt.Printf("Error listing properties: %v\n", err)
-		os.Exit(1)
+		return "", fmt.Errorf("listing properties: %v", err)
 	}
 
 	var tagsPropID string
@@ -83,42 +88,37 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 	}
 
 	var content string
-	if *clipboard {
+	if opts.Clipboard {
 		cmd := exec.Command("sunbeam", "paste")
 		out, err := cmd.Output()
 		if err != nil {
-			fmt.Printf("Error reading clipboard: %v\n", err)
-			os.Exit(1)
+			return "", fmt.Errorf("reading clipboard: %v", err)
 		}
 		content = string(out)
-	} else if *shellCommand {
+	} else if opts.ShellCommand {
 		lastCommand, err := getLastShellCommand()
 		if err != nil {
-			fmt.Printf("Error retrieving last shell command: %v\n", err)
-			os.Exit(1)
+			return "", fmt.Errorf("retrieving last shell command: %v", err)
 		}
 		content = lastCommand
 	} else {
-		fmt.Print("Unable to post object ... please specify --clipboard or --shellCommand")
-		os.Exit(1)
+		return "", fmt.Errorf("please specify clipboard or shellCommand")
 	}
 
 	content = strings.TrimSpace(content)
 
 	if content == "" {
-		fmt.Println("No content to post.")
-		os.Exit(1)
+		return "", fmt.Errorf("no content to post")
 	}
 
-	fmt.Printf("content: %s \n", content)
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter additional tags (comma-separated): ")
 	additionalTags, _ := reader.ReadString('\n')
 	additionalTags = strings.TrimSpace(additionalTags)
 
 	var allTags []string
-	if *tags != "" {
-		allTags = append(allTags, strings.Split(*tags, ",")...)
+	if opts.Tags != "" {
+		allTags = append(allTags, strings.Split(opts.Tags, ",")...)
 	}
 	if additionalTags != "" {
 		allTags = append(allTags, strings.Split(additionalTags, ",")...)
@@ -126,10 +126,15 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 
 	var tagKeys []string
 	if tagsPropKey != "" && len(allTags) > 0 {
-		tagResp, err := client.Space(spaceID).Property(tagsPropID).Tags().List(ctx)
-		if err == nil {
+		tagResp, err := client.Space(opts.SpaceID).Property(tagsPropID).Tags().List(ctx)
+		if err != nil {
+			fmt.Printf("Warning: Failed to list existing tags: %v\n", err)
+		} else {
 			for _, requestedTag := range allTags {
 				requestedTag = strings.TrimSpace(requestedTag)
+				if requestedTag == "" {
+					continue
+				}
 				found := false
 				for _, t := range tagResp {
 					if strings.EqualFold(t.Name, requestedTag) {
@@ -143,8 +148,10 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 						Name:  requestedTag,
 						Color: "grey",
 					}
-					tagRespNew, err := client.Space(spaceID).Property(tagsPropID).Tags().Create(ctx, tagCreateReq)
-					if err == nil {
+					tagRespNew, err := client.Space(opts.SpaceID).Property(tagsPropID).Tags().Create(ctx, tagCreateReq)
+					if err != nil {
+						fmt.Printf("Warning: Failed to create tag '%s': %v\n", requestedTag, err)
+					} else if tagRespNew != nil && tagRespNew.Tag.Key != "" {
 						tagKeys = append(tagKeys, tagRespNew.Tag.Key)
 					}
 				}
@@ -177,13 +184,10 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 		Body:    markdownContent,
 	}
 
-	obj, err := client.Space(spaceID).Objects().Create(ctx, createReq)
+	obj, err := client.Space(opts.SpaceID).Objects().Create(ctx, createReq)
 	if err != nil {
-		fmt.Printf("Error creating object: %v\n", err)
-		os.Exit(1)
+		return "", fmt.Errorf("creating object: %v", err)
 	}
-
-	fmt.Printf("Object created successfully! ID: %s\n", obj.Object.ID)
 
 	if tagsPropKey != "" && len(tagKeys) > 0 {
 		updateReq := anytype.UpdateObjectRequest{
@@ -194,11 +198,11 @@ func PostAnytypeObject(clipboard *bool, shellCommand *bool, tags *string, spaceI
 				},
 			},
 		}
-		_, err = client.Space(spaceID).Object(obj.Object.ID).Update(ctx, updateReq)
+		_, err = client.Space(opts.SpaceID).Object(obj.Object.ID).Update(ctx, updateReq)
 		if err != nil {
-			fmt.Printf("Error updating tags: %v\n", err)
-		} else {
-			fmt.Printf("Tags added successfully!\n")
+			return "", fmt.Errorf("updating tags: %v", err)
 		}
 	}
+
+	return obj.Object.ID, nil
 }

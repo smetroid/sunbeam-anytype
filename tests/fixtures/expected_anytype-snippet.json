@@ -1,0 +1,41 @@
+{
+  "actions": [
+    {
+      "exit": true,
+      "title": "Refresh items",
+      "type": "reload"
+    }
+  ],
+  "items": [
+    {
+      "accessories": ["snippet"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "",
+            "content": "This is a snippet note with #snippet tag"
+          },
+          "title": "view cmd",
+          "type": "run"
+        }
+      ],
+      "title": "This is a snippet note with #snippet tag"
+    },
+    {
+      "accessories": ["snippet shell"],
+      "actions": [
+        {
+          "command": "view-command",
+          "params": {
+            "codeblock": "echo 'Hello World'",
+            "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet"
+          },
+          "title": "view cmd",
+          "type": "run"
+        }
+      ],
+      "title": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet"
+    }
+  ]
+}

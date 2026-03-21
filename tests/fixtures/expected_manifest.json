@@ -1,0 +1,51 @@
+{
+  "title": "Anytype",
+  "description": "Search Anytype objects",
+  "preferences": [
+    {
+      "name": "anytype_app_key",
+      "title": "Anytype App Key",
+      "type": "string"
+    },
+    {
+      "name": "anytype_space_id",
+      "title": "Anytype Space ID",
+      "type": "string"
+    }
+  ],
+  "commands": [
+    {
+      "name": "anytype-cmd",
+      "title": "Anytype cmd blocks",
+      "mode": "filter"
+    },
+    {
+      "name": "anytype-snippet",
+      "title": "Anytype snippets blocks",
+      "mode": "filter"
+    },
+    {
+      "name": "anytype-all",
+      "title": "ALL objects",
+      "mode": "filter"
+    },
+    {
+      "name": "run-command",
+      "title": "execute command",
+      "mode": "tty",
+      "exit": "true"
+    },
+    {
+      "name": "view-command",
+      "title": "view command",
+      "mode": "detail",
+      "exit": "false"
+    },
+    {
+      "name": "edit-object",
+      "title": "edit object",
+      "mode": "tty",
+      "exit": "false"
+    }
+  ]
+}
