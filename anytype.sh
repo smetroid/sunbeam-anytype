@@ -67,6 +67,11 @@ if [ "$COMMAND" = "anytype-cmd" ]; then
             "title": .cmd,
             "accessories": [.tags],
             "actions": [{
+                "type": "copy",
+                "title": "Copy to clipboard",
+                "text": .cmd,
+                "exit": true
+            },{
                 "type": "run",
                 "title": "Run Command",
                 "command": "run-command",
