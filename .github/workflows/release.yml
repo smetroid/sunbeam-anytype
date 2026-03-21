@@ -41,13 +41,13 @@ jobs:
           if [ "$GOOS" = "windows" ]; then
             EXTENSION=".exe"
           fi
-          OUTPUT_NAME="sunbeam-anytype-${GOOS}-${GOARCH}${EXTENSION}"
+          OUTPUT_NAME="anytype-${GOOS}-${GOARCH}${EXTENSION}"
           go build -o "$OUTPUT_NAME" -ldflags "-s -w" .
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: sunbeam-anytype-*
+          files: anytype-*
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
