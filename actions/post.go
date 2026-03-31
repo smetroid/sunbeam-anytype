@@ -125,6 +125,7 @@ func PostAnytypeObject(opts PostOptions) (string, error) {
 	}
 
 	var tagKeys []string
+	var processedTags []string
 	if tagsPropKey != "" && len(allTags) > 0 {
 		tagResp, err := client.Space(opts.SpaceID).Property(tagsPropID).Tags().List(ctx)
 		if err != nil {
@@ -136,11 +137,20 @@ func PostAnytypeObject(opts PostOptions) (string, error) {
 					continue
 				}
 				found := false
-				for _, t := range tagResp {
-					if strings.EqualFold(t.Name, requestedTag) {
-						tagKeys = append(tagKeys, t.Key)
+				for _, processed := range processedTags {
+					if strings.EqualFold(processed, requestedTag) {
 						found = true
 						break
+					}
+				}
+				if !found {
+					for _, t := range tagResp {
+						if strings.EqualFold(t.Name, requestedTag) {
+							tagKeys = append(tagKeys, t.Key)
+							processedTags = append(processedTags, requestedTag)
+							found = true
+							break
+						}
 					}
 				}
 				if !found {
@@ -153,6 +163,7 @@ func PostAnytypeObject(opts PostOptions) (string, error) {
 						fmt.Printf("Warning: Failed to create tag '%s': %v\n", requestedTag, err)
 					} else if tagRespNew != nil && tagRespNew.Tag.Key != "" {
 						tagKeys = append(tagKeys, tagRespNew.Tag.Key)
+						processedTags = append(processedTags, requestedTag)
 					}
 				}
 			}
