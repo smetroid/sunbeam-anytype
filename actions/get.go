@@ -115,7 +115,7 @@ func GetAnytypeObjects(tags string, spaceID string, appKey string) ([]map[string
 			"cmd":     codeBlock,
 			"tags":    strings.Join(objTags, " "),
 			"content": strings.TrimSpace(content),
-			"name":    obj.ID,
+			"id":      obj.ID,
 		}
 
 		results = append(results, itemMap)

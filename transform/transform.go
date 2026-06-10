@@ -103,7 +103,7 @@ func applyTemplate(obj map[string]string, templateType TemplateType) ListItem {
 			Actions: []Action{
 				{Type: "copy", Title: "Copy to clipboard", Text: obj["cmd"], Exit: boolPtr(true)},
 				{Type: "run", Title: "Run Command", Command: "run-command", Params: map[string]string{"codeblock": obj["cmd"]}},
-				{Type: "run", Title: "View Command", Command: "view-command", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"]}},
+				{Type: "run", Title: "View Command", Command: "view-command", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "id": obj["id"]}},
 			},
 		}
 	case SnippetTemplate:
@@ -111,7 +111,7 @@ func applyTemplate(obj map[string]string, templateType TemplateType) ListItem {
 			Title:       obj["content"],
 			Accessories: []string{obj["tags"]},
 			Actions: []Action{
-				{Type: "run", Title: "view cmd", Command: "view-command", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"]}},
+				{Type: "run", Title: "view cmd", Command: "view-command", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "id": obj["id"]}},
 			},
 		}
 	case AllTemplate:
@@ -121,8 +121,8 @@ func applyTemplate(obj map[string]string, templateType TemplateType) ListItem {
 			Subtitle:    subtitle,
 			Accessories: []string{obj["tags"]},
 			Actions: []Action{
-				{Type: "run", Title: "view object", Command: "view-command", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "name": obj["name"]}},
-				{Type: "run", Title: "edit object", Command: "edit-object", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "name": obj["name"]}},
+				{Type: "run", Title: "view object", Command: "view-command", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "id": obj["id"]}},
+				{Type: "run", Title: "edit object", Command: "edit-object", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "id": obj["id"]}},
 			},
 		}
 	}
@@ -135,7 +135,7 @@ func GenerateDetailView(params map[string]string) DetailView {
 		Markdown: params["content"],
 		Actions: []Action{
 			{Type: "copy", Title: "Copy to clipboard", Text: params["codeblock"], Exit: boolPtr(false)},
-			{Type: "run", Title: "Edit", Command: "edit-object", Params: map[string]string{"content": params["content"], "codeblock": params["codeblock"], "name": params["name"]}},
+			{Type: "run", Title: "Edit", Command: "edit-object", Params: map[string]string{"content": params["content"], "codeblock": params["codeblock"], "id": params["id"]}},
 		},
 	}
 }

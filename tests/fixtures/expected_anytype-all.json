@@ -15,7 +15,7 @@
           "params": {
             "codeblock": "git status",
             "content": "Check git repository status\n\n```bash\ngit status\n```",
-            "name": "obj-001"
+            "id": "obj-001"
           },
           "title": "view object",
           "type": "run"
@@ -25,7 +25,7 @@
           "params": {
             "codeblock": "git status",
             "content": "Check git repository status\n\n```bash\ngit status\n```",
-            "name": "obj-001"
+            "id": "obj-001"
           },
           "title": "edit object",
           "type": "run"
@@ -42,7 +42,7 @@
           "params": {
             "codeblock": "kubectl get pods -n default",
             "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```",
-            "name": "obj-002"
+            "id": "obj-002"
           },
           "title": "view object",
           "type": "run"
@@ -52,7 +52,7 @@
           "params": {
             "codeblock": "kubectl get pods -n default",
             "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```",
-            "name": "obj-002"
+            "id": "obj-002"
           },
           "title": "edit object",
           "type": "run"
@@ -69,7 +69,7 @@
           "params": {
             "codeblock": "docker ps",
             "content": "List running containers\n\n```bash\ndocker ps\n```",
-            "name": "obj-003"
+            "id": "obj-003"
           },
           "title": "view object",
           "type": "run"
@@ -79,7 +79,7 @@
           "params": {
             "codeblock": "docker ps",
             "content": "List running containers\n\n```bash\ndocker ps\n```",
-            "name": "obj-003"
+            "id": "obj-003"
           },
           "title": "edit object",
           "type": "run"
@@ -96,7 +96,7 @@
           "params": {
             "codeblock": "",
             "content": "This is a snippet note with #snippet tag",
-            "name": "obj-004"
+            "id": "obj-004"
           },
           "title": "view object",
           "type": "run"
@@ -106,7 +106,7 @@
           "params": {
             "codeblock": "",
             "content": "This is a snippet note with #snippet tag",
-            "name": "obj-004"
+            "id": "obj-004"
           },
           "title": "edit object",
           "type": "run"
@@ -122,7 +122,7 @@
           "params": {
             "codeblock": "echo 'Hello World'",
             "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet",
-            "name": "obj-005"
+            "id": "obj-005"
           },
           "title": "view object",
           "type": "run"
@@ -132,7 +132,7 @@
           "params": {
             "codeblock": "echo 'Hello World'",
             "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet",
-            "name": "obj-005"
+            "id": "obj-005"
           },
           "title": "edit object",
           "type": "run"
@@ -149,7 +149,7 @@
           "params": {
             "codeblock": "",
             "content": "Just a regular note without code block",
-            "name": "obj-006"
+            "id": "obj-006"
           },
           "title": "view object",
           "type": "run"
@@ -159,7 +159,7 @@
           "params": {
             "codeblock": "",
             "content": "Just a regular note without code block",
-            "name": "obj-006"
+            "id": "obj-006"
           },
           "title": "edit object",
           "type": "run"
@@ -175,7 +175,7 @@
           "params": {
             "codeblock": "ls -la",
             "content": "List all files with details\n\n```bash\nls -la\n```",
-            "name": "obj-007"
+            "id": "obj-007"
           },
           "title": "view object",
           "type": "run"
@@ -185,7 +185,7 @@
           "params": {
             "codeblock": "ls -la",
             "content": "List all files with details\n\n```bash\nls -la\n```",
-            "name": "obj-007"
+            "id": "obj-007"
           },
           "title": "edit object",
           "type": "run"

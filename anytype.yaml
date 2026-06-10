@@ -67,6 +67,7 @@ templates:
         params:
           content: "{{.content}}"
           codeblock: "{{.cmd}}"
+          id: "{{.id}}"
 
   # Template for snippets (tagged with "snippet")
   snippet:
@@ -80,6 +81,7 @@ templates:
         params:
           content: "{{.content}}"
           codeblock: "{{.cmd}}"
+          id: "{{.id}}"
 
   # Template for all objects
   all:
@@ -93,14 +95,14 @@ templates:
         params:
           content: "{{.content}}"
           codeblock: "{{.cmd}}"
-          name: "{{.name}}"
+          id: "{{.id}}"
       - type: run
         title: "edit object"
         command: edit-object
         params:
           content: "{{.content}}"
           codeblock: "{{.cmd}}"
-          name: "{{.name}}"
+          id: "{{.id}}"
 
 # Detail view template for view-command
 detail_template:
@@ -116,7 +118,7 @@ detail_template:
       params:
         content: "{{.content}}"
         codeblock: "{{.codeblock}}"
-        name: "{{.name}}"
+        id: "{{.id}}"
 
 # Global actions (shown for all list views)
 global_actions:

@@ -28,7 +28,8 @@
           "command": "view-command",
           "params": {
             "codeblock": "git status",
-            "content": "Check git repository status\n\n```bash\ngit status\n```"
+            "content": "Check git repository status\n\n```bash\ngit status\n```",
+            "id": "obj-001"
           },
           "title": "View Command",
           "type": "run"
@@ -57,7 +58,8 @@
           "command": "view-command",
           "params": {
             "codeblock": "kubectl get pods -n default",
-            "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```"
+            "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```",
+            "id": "obj-002"
           },
           "title": "View Command",
           "type": "run"
@@ -86,7 +88,8 @@
           "command": "view-command",
           "params": {
             "codeblock": "docker ps",
-            "content": "List running containers\n\n```bash\ndocker ps\n```"
+            "content": "List running containers\n\n```bash\ndocker ps\n```",
+            "id": "obj-003"
           },
           "title": "View Command",
           "type": "run"
@@ -115,7 +118,8 @@
           "command": "view-command",
           "params": {
             "codeblock": "ls -la",
-            "content": "List all files with details\n\n```bash\nls -la\n```"
+            "content": "List all files with details\n\n```bash\nls -la\n```",
+            "id": "obj-007"
           },
           "title": "View Command",
           "type": "run"

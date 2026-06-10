@@ -34,6 +34,10 @@ func getLastShellCommand() (string, error) {
 }
 
 func UpdateAnytypeObject(objectID string, spaceID string, appKey string) error {
+	if objectID == "" || objectID == "<no value>" {
+		return fmt.Errorf("invalid object id: %q", objectID)
+	}
+
 	ctx := context.Background()
 	client := anytype.NewClient(
 		anytype.WithBaseURL("http://localhost:31009"),
@@ -47,7 +51,7 @@ func UpdateAnytypeObject(objectID string, spaceID string, appKey string) error {
 	}
 
 	updateReq := anytype.UpdateObjectRequest{
-		Name: string(content),
+		Markdown: string(content),
 	}
 
 	_, err = client.Space(spaceID).Object(objectID).Update(ctx, updateReq)
