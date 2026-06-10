@@ -14,7 +14,8 @@
           "command": "view-command",
           "params": {
             "codeblock": "",
-            "content": "This is a snippet note with #snippet tag"
+            "content": "This is a snippet note with #snippet tag",
+            "id": "obj-004"
           },
           "title": "view cmd",
           "type": "run"
@@ -29,7 +30,8 @@
           "command": "view-command",
           "params": {
             "codeblock": "echo 'Hello World'",
-            "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet"
+            "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet",
+            "id": "obj-005"
           },
           "title": "view cmd",
           "type": "run"

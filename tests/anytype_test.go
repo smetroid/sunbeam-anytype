@@ -140,7 +140,7 @@ func TestViewCommand(t *testing.T) {
 	params := map[string]string{
 		"content":   "Check git repository status\n\n```bash\ngit status\n```",
 		"codeblock": "git status",
-		"name":      "obj-001",
+		"id":        "obj-001",
 	}
 
 	detail := transform.GenerateDetailView(params)

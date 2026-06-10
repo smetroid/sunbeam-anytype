@@ -162,23 +162,24 @@ func handleViewCommand(params map[string]string) {
 }
 
 func handleEditObject(params map[string]string) {
-	name := params["name"]
+	id := params["id"]
 	content := params["content"]
-	if strings.TrimSpace(name) == "" || name == "<no value>" || strings.Contains(name, "{{") {
-		fmt.Fprintf(os.Stderr, "No name provided (got %q)\n", name)
+	if strings.TrimSpace(id) == "" || id == "<no value>" || strings.Contains(id, "{{") {
+		fmt.Fprintf(os.Stderr, "No id provided (got %q)\n", id)
 		os.Exit(1)
 	}
 
-	if !strings.HasPrefix(name, "/tmp/") {
-		name = "/tmp/" + name + ".md"
+	path := id
+	if !strings.HasPrefix(path, "/tmp/") {
+		path = "/tmp/" + path + ".md"
 	}
 
-	if err := os.WriteFile(name, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
 		fmt.Fprintf(os.Stderr, "Error writing file: %v\n", err)
 		os.Exit(1)
 	}
 
-	beforeEdit, err := getFileModTime(name)
+	beforeEdit, err := getFileModTime(path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error getting file time: %v\n", err)
 		os.Exit(1)
@@ -188,7 +189,7 @@ func handleEditObject(params map[string]string) {
 	if editor == "" {
 		editor = "vim"
 	}
-	editorCmd := exec.Command(editor, name)
+	editorCmd := exec.Command(editor, path)
 	editorCmd.Stdin = os.Stdin
 	editorCmd.Stdout = os.Stdout
 	editorCmd.Stderr = os.Stderr
@@ -197,7 +198,7 @@ func handleEditObject(params map[string]string) {
 		os.Exit(1)
 	}
 
-	afterEdit, err := getFileModTime(name)
+	afterEdit, err := getFileModTime(path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error getting file time: %v\n", err)
 		os.Exit(1)
@@ -210,8 +211,7 @@ func handleEditObject(params map[string]string) {
 		os.Exit(0)
 	}
 
-	objectID := filepath.Base(name)
-	objectID = strings.TrimSuffix(objectID, ".md")
+	objectID := strings.TrimSuffix(filepath.Base(path), ".md")
 
 	err = actions.UpdateAnytypeObject(objectID, getSpaceID(), getAppKey())
 	if err != nil {
@@ -389,8 +389,8 @@ func getDefaultTemplates() TemplateConfig {
 				Subtitle:    "{{.Cmd}}",
 				Accessories: "{{.Tags}}",
 				Actions: []Action{
-					{Type: "run", Title: "view object", Command: "view-command", Params: map[string]string{"content": "{{.Content}}", "codeblock": "{{.Cmd}}", "name": "{{.Name}}"}},
-					{Type: "run", Title: "edit object", Command: "edit-object", Params: map[string]string{"content": "{{.Content}}", "codeblock": "{{.Cmd}}", "name": "{{.Name}}"}},
+					{Type: "run", Title: "view object", Command: "view-command", Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.cmd}}", "id": "{{.id}}"}},
+					{Type: "run", Title: "edit object", Command: "edit-object", Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.cmd}}", "id": "{{.id}}"}},
 				},
 			},
 		},
@@ -398,7 +398,7 @@ func getDefaultTemplates() TemplateConfig {
 			Markdown: "{{.content}}",
 			Actions: []Action{
 				{Type: "copy", Title: "Copy to clipboard", Text: "{{.codeblock}}", Exit: boolPtr(false)},
-				{Type: "run", Title: "Edit", Command: "edit-object", Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.codeblock}}", "name": "{{.name}}"}},
+				{Type: "run", Title: "Edit", Command: "edit-object", Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.codeblock}}", "id": "{{.id}}"}},
 			},
 		},
 		Global: []Action{

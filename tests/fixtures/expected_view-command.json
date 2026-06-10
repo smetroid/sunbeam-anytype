@@ -11,7 +11,7 @@
       "params": {
         "codeblock": "git status",
         "content": "Check git repository status\n\n```bash\ngit status\n```",
-        "name": "obj-001"
+        "id": "obj-001"
       },
       "title": "Edit",
       "type": "run"
