@@ -164,8 +164,8 @@ func handleViewCommand(params map[string]string) {
 func handleEditObject(params map[string]string) {
 	name := params["name"]
 	content := params["content"]
-	if name == "" {
-		fmt.Fprintf(os.Stderr, "No name provided\n")
+	if strings.TrimSpace(name) == "" || name == "<no value>" || strings.Contains(name, "{{") {
+		fmt.Fprintf(os.Stderr, "No name provided (got %q)\n", name)
 		os.Exit(1)
 	}
 
@@ -564,7 +564,7 @@ func applyTemplateString(tmpl string, data map[string]string) string {
 	if tmpl == "" {
 		return ""
 	}
-	t, err := template.New("").Parse(tmpl)
+	t, err := template.New("").Option("missingkey=error").Parse(tmpl)
 	if err != nil {
 		return tmpl
 	}

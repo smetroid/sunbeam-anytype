@@ -67,6 +67,7 @@ templates:
         params:
           content: "{{.content}}"
           codeblock: "{{.cmd}}"
+          name: "{{.name}}"
 
   # Template for snippets (tagged with "snippet")
   snippet:
@@ -80,6 +81,7 @@ templates:
         params:
           content: "{{.content}}"
           codeblock: "{{.cmd}}"
+          name: "{{.name}}"
 
   # Template for all objects
   all:
