@@ -51,7 +51,7 @@ func UpdateAnytypeObject(objectID string, spaceID string, appKey string) error {
 	}
 
 	updateReq := anytype.UpdateObjectRequest{
-		Markdown: string(content),
+		Markdown: strings.TrimSpace(string(content)),
 	}
 
 	_, err = client.Space(spaceID).Object(objectID).Update(ctx, updateReq)
