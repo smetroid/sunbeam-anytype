@@ -13,6 +13,8 @@ type Action struct {
 	Command string            `json:"command,omitempty"`
 	Params  map[string]string `json:"params,omitempty"`
 	Exit    *bool             `json:"exit,omitempty"`
+	Reload  *bool             `json:"reload,omitempty"`
+	Key     string            `json:"key,omitempty"`
 }
 
 type ListItem struct {
@@ -122,7 +124,7 @@ func applyTemplate(obj map[string]string, templateType TemplateType) ListItem {
 			Accessories: []string{obj["tags"]},
 			Actions: []Action{
 				{Type: "run", Title: "view object", Command: "view-command", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "id": obj["id"]}},
-				{Type: "run", Title: "edit object", Command: "edit-object", Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "id": obj["id"]}},
+				{Type: "run", Title: "edit object", Command: "edit-object", Reload: boolPtr(true), Params: map[string]string{"content": obj["content"], "codeblock": obj["cmd"], "id": obj["id"]}},
 			},
 		}
 	}
@@ -135,7 +137,7 @@ func GenerateDetailView(params map[string]string) DetailView {
 		Markdown: params["content"],
 		Actions: []Action{
 			{Type: "copy", Title: "Copy to clipboard", Text: params["codeblock"], Exit: boolPtr(false)},
-			{Type: "run", Title: "Edit", Command: "edit-object", Params: map[string]string{"content": params["content"], "codeblock": params["codeblock"], "id": params["id"]}},
+			{Type: "run", Title: "Edit", Command: "edit-object", Reload: boolPtr(true), Params: map[string]string{"content": params["content"], "codeblock": params["codeblock"], "id": params["id"]}},
 		},
 	}
 }

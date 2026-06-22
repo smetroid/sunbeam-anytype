@@ -390,7 +390,7 @@ func getDefaultTemplates() TemplateConfig {
 				Accessories: "{{.Tags}}",
 				Actions: []Action{
 					{Type: "run", Title: "view object", Command: "view-command", Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.cmd}}", "id": "{{.id}}"}},
-					{Type: "run", Title: "edit object", Command: "edit-object", Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.cmd}}", "id": "{{.id}}"}},
+					{Type: "run", Title: "edit object", Command: "edit-object", Reload: boolPtr(true), Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.cmd}}", "id": "{{.id}}"}},
 				},
 			},
 		},
@@ -398,11 +398,11 @@ func getDefaultTemplates() TemplateConfig {
 			Markdown: "{{.content}}",
 			Actions: []Action{
 				{Type: "copy", Title: "Copy to clipboard", Text: "{{.codeblock}}", Exit: boolPtr(false)},
-				{Type: "run", Title: "Edit", Command: "edit-object", Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.codeblock}}", "id": "{{.id}}"}},
+				{Type: "run", Title: "Edit", Command: "edit-object", Reload: boolPtr(true), Params: map[string]string{"content": "{{.content}}", "codeblock": "{{.codeblock}}", "id": "{{.id}}"}},
 			},
 		},
 		Global: []Action{
-			{Type: "reload", Title: "Refresh items", Exit: boolPtr(true)},
+			{Type: "reload", Title: "Refresh items", Key: "r", Exit: boolPtr(true)},
 		},
 	}
 }
@@ -495,6 +495,8 @@ type Action struct {
 	Command string            `json:"command,omitempty"`
 	Params  map[string]string `json:"params,omitempty"`
 	Exit    *bool             `json:"exit,omitempty"`
+	Reload  *bool             `json:"reload,omitempty"`
+	Key     string            `json:"key,omitempty"`
 }
 
 type ListItem struct {
@@ -585,6 +587,8 @@ func transformActions(actions []Action, data map[string]string) []Action {
 			Command: a.Command,
 			Params:  transformParams(a.Params, data),
 			Exit:    a.Exit,
+			Reload:  a.Reload,
+			Key:     a.Key,
 		}
 	}
 	return result

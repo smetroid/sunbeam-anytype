@@ -17,6 +17,44 @@ type AnytypeObject struct {
 	Name    string `json:"name"`
 }
 
+func cleanContent(s string) string {
+	lines := strings.Split(s, "\n")
+	var result []string
+	var codeLines []string
+	inCodeBlock := false
+
+	for _, line := range lines {
+		line = strings.TrimRight(line, " \t")
+
+		if strings.HasPrefix(line, "```") {
+			if inCodeBlock {
+				for len(codeLines) > 0 && codeLines[len(codeLines)-1] == "" {
+					codeLines = codeLines[:len(codeLines)-1]
+				}
+				result = append(result, codeLines...)
+				codeLines = nil
+				inCodeBlock = false
+			} else {
+				inCodeBlock = true
+			}
+			result = append(result, line)
+			continue
+		}
+
+		if inCodeBlock {
+			codeLines = append(codeLines, line)
+		} else {
+			result = append(result, line)
+		}
+	}
+
+	if inCodeBlock {
+		result = append(result, codeLines...)
+	}
+
+	return strings.TrimSpace(strings.Join(result, "\n"))
+}
+
 func extractCodeBlock(content string) string {
 	re := regexp.MustCompile("(?s)```\\w*\\n(.*?)\\n```")
 	matches := re.FindStringSubmatch(content)
@@ -65,19 +103,19 @@ func GetAnytypeObjects(tags string, spaceID string, appKey string) ([]map[string
 
 		objResp, err := client.Space(spaceID).Object(obj.ID).Get(ctx, anytype.WithFormat("md"))
 		if err == nil && objResp.Object != nil {
-			markdown = objResp.Object.Markdown
-			content = objResp.Object.Markdown
+			markdown = cleanContent(objResp.Object.Markdown)
+			content = markdown
 			if content == "" {
-				content = objResp.Object.Snippet
+				content = cleanContent(objResp.Object.Snippet)
 				if content == "" {
-					content = objResp.Object.Name
+					content = strings.TrimSpace(objResp.Object.Name)
 				}
 			}
 		} else {
-			markdown = obj.Markdown
-			content = obj.Snippet
+			markdown = cleanContent(obj.Markdown)
+			content = cleanContent(obj.Snippet)
 			if content == "" {
-				content = obj.Name
+				content = strings.TrimSpace(obj.Name)
 			}
 		}
 

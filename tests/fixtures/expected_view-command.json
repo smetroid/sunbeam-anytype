@@ -13,6 +13,7 @@
         "content": "Check git repository status\n\n```bash\ngit status\n```",
         "id": "obj-001"
       },
+      "reload": true,
       "title": "Edit",
       "type": "run"
     }

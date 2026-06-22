@@ -99,6 +99,7 @@ templates:
       - type: run
         title: "edit object"
         command: edit-object
+        reload: true
         params:
           content: "{{.content}}"
           codeblock: "{{.cmd}}"
@@ -115,6 +116,7 @@ detail_template:
     - type: run
       title: "Edit"
       command: edit-object
+      reload: true
       params:
         content: "{{.content}}"
         codeblock: "{{.codeblock}}"
@@ -124,4 +126,5 @@ detail_template:
 global_actions:
   - type: reload
     title: "Refresh items"
+    key: r
     exit: true

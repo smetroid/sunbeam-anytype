@@ -27,6 +27,7 @@
             "content": "Check git repository status\n\n```bash\ngit status\n```",
             "id": "obj-001"
           },
+          "reload": true,
           "title": "edit object",
           "type": "run"
         }
@@ -54,6 +55,7 @@
             "content": "List pods in default namespace\n\n```bash\nkubectl get pods -n default\n```",
             "id": "obj-002"
           },
+          "reload": true,
           "title": "edit object",
           "type": "run"
         }
@@ -81,6 +83,7 @@
             "content": "List running containers\n\n```bash\ndocker ps\n```",
             "id": "obj-003"
           },
+          "reload": true,
           "title": "edit object",
           "type": "run"
         }
@@ -108,6 +111,7 @@
             "content": "This is a snippet note with #snippet tag",
             "id": "obj-004"
           },
+          "reload": true,
           "title": "edit object",
           "type": "run"
         }
@@ -134,6 +138,7 @@
             "content": "Simple echo command\n\n```bash\necho 'Hello World'\n```\n\n#snippet",
             "id": "obj-005"
           },
+          "reload": true,
           "title": "edit object",
           "type": "run"
         }
@@ -161,6 +166,7 @@
             "content": "Just a regular note without code block",
             "id": "obj-006"
           },
+          "reload": true,
           "title": "edit object",
           "type": "run"
         }
@@ -187,6 +193,7 @@
             "content": "List all files with details\n\n```bash\nls -la\n```",
             "id": "obj-007"
           },
+          "reload": true,
           "title": "edit object",
           "type": "run"
         }
